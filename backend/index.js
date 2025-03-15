@@ -1,9 +1,11 @@
 const express = require('express');
 const connectDB = require('./db');
 const Record = require('./models/records');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 connectDB();
 
@@ -14,6 +16,7 @@ app.post('/addrecord', async (req, res) => {
         await record.save();
         return res.json(record);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message });
     }
 });
@@ -25,8 +28,9 @@ app.get('/', (req, res) => {
 app.get('/allrecords', async (req, res) => {
     try {
         const records = await Record.find();
-        return res.json(records);
+        return res.json({records});
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message });
     }
 });
@@ -36,6 +40,7 @@ app.get('/overdue', async (_, res) => {
         const records = await Record.find({ status: 'overdue' });
         return res.json(records);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message });
     }
 });
@@ -65,6 +70,7 @@ app.post('/updaterecord/:id', async (req, res) => {
 
         res.json(record);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message });
     }
 });

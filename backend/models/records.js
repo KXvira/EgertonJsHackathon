@@ -33,7 +33,8 @@ const recordSchema = new Schema({
             'paid',
             'overdue',
             'pending'
-        ]
+        ],
+        default: 'pending'
     },
     dueDate: {
         type: Date,
